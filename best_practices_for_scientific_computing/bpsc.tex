@@ -1,0 +1,186 @@
+% Copyright (C) 2012 Raniere Silva
+% 
+% This work is licensed under the Creative Commons
+% Attribution-ShareAlike 3.0 Unported License. To view a copy of this
+% license, visit <http://creativecommons.org/licenses/by-sa/3.0/>.
+% 
+% This work is distributed in the hope that it will be useful, but
+% WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+\documentclass{beamer}
+% Utilizar apenas para a classe beamer
+\usetheme{CambridgeUS}
+\let\Tiny=\tiny % Redefine at least \Tiny for avoid warning
+
+% Tipo de arquivo.
+\usepackage[utf8]{inputenc}
+% \usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Configura\c{c}\~{o}es regionais
+% \usepackage[top=3cm,left=2cm,right=2cm,bottom=3cm]{geometry}
+\usepackage[brazil]{babel}
+\usepackage{indentfirst}
+
+% Textos
+\newcommand{\flang}[1]{\textit{#1}}
+
+% Links
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{
+%colorlinks = true,
+}
+\usepackage{breakurl}
+
+% Pacotes matem\'{a}ticos
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\allowdisplaybreaks[4]
+\newtheorem{defi}{Definição}
+\newtheorem{prop}{Proposição}
+
+% Pacotes para tabelas
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{array}
+
+% Pacotes gr\'{a}ficos
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{tikz}
+
+% Pacotes para algoritmos
+\usepackage{algorithmic}
+\algsetup{linenosize=\small}
+\renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+\renewcommand{\algorithmicensure}{\textbf{Saída:}}
+\renewcommand{\algorithmicend}{\textbf{fim}}
+\renewcommand{\algorithmicif}{\textbf{se}}
+\renewcommand{\algorithmicthen}{\textbf{ent\~{a}o}}
+\renewcommand{\algorithmicelse}{\textbf{caso contr\'{a}rio}}
+\renewcommand{\algorithmicendif}{\algorithmicend}
+\renewcommand{\algorithmicfor}{\textbf{para}}
+\renewcommand{\algorithmicforall}{\textbf{para todo}}
+\renewcommand{\algorithmicdo}{\textbf{fa\c{c}a}}
+\renewcommand{\algorithmicendfor}{\algorithmicend}
+\renewcommand{\algorithmicwhile}{\textbf{enquanto}}
+\renewcommand{\algorithmicendwhile}{\algorithmicend}
+\renewcommand{\algorithmicrepeat}{\textbf{repita}}
+\renewcommand{\algorithmicuntil}{\textbf{at\'{e}}}
+\renewcommand{\algorithmicreturn}{\textbf{retorne}}
+\renewcommand{\algorithmiccomment}[1]{\hspace{2em}/* #1 */}
+
+\usepackage{algorithm}
+\floatname{algorithm}{Algoritmo}
+
+% Pacotes para c\'{o}digos
+\usepackage{textcomp}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{C\'{o}digo}
+\lstset{
+% language=Octave,
+basicstyle=\ttfamily\small,
+columns=flexible,
+numbers=left,
+numberstyle=\footnotesize,
+stepnumber=5,
+numbersep=5pt,
+% backgroundcolor=\color{white},
+% showspaces=false,
+% showstringspaces=false,
+% showtabs=false,
+% frame=single,
+tabsize=4,
+captionpos=t,
+breaklines=true,
+breakatwhitespace=false,
+% caption={\texttt{\lstname}},
+% escapeinside={\%*}{*)},
+% morekeywords={#},
+upquote=true,
+}
+\newcommand{\lcode}[1]{\lstinline!#1!}
+% Configura\{c}c\~{o}es para o python
+\lstdefinestyle{python}{
+language=python,
+% escapeinside={\%}{\^{M},
+}
+\lstnewenvironment{cpython}{\lstset{style=python,}}{}
+\newcommand{\fpython}[1]{\lstinputlisting[style=python,]{#1}}
+
+% Index
+\usepackage{makeidx}
+\makeindex
+
+\begin{document}
+\title{Boas Práticas para Computação Científica}
+\author[Raniere Silva]{Raniere Gaia Costa da Silva}
+\date{30/11/2012}
+
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\begin{frame}
+    Esta apresentação é baseada no artigo ``Best Practices for Scientific
+    Computing'' de D. A. Aruliah \textit{et al.} que encontra-se disponível em
+    \url{http://arxiv.org/abs/1210.0530v1}.
+
+    \begin{block}{Licença}
+        Salvo indicado o contrário, esta apresentação está licenciada sob a licença
+        Creative Commons Atribuição 3.0 Não Adaptada. Para ver uma cópia desta
+        licença, visite http://creativecommons.org/licenses/by/3.0/.
+        \begin{center}
+            \includegraphics{../figures/cc-by-sa.png}
+        \end{center}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \tableofcontents
+\end{frame}
+
+\section{Introdução}
+\begin{frame}
+    \begin{quotation}
+        Scientists spend an increasing amount of time building and using
+        software. However, most scientists are never taught how to do this
+        efficiently. As a result, many are unaware of tools and practices that
+        would allow them to write more reliable and maintainable code with less
+        effort. We describe a set of best practices for scientific software
+        development that have solid foundations in research and experience, and
+        that improve scientists’ productivity and the reliability of their
+        software. (Retirado de Aruliah\nocite{Aruliah-2012-Best}.)
+    \end{quotation}
+\end{frame}
+
+\section{Códigos para seres humanos}
+\begin{frame}
+    Escreva códigos que possa ser facilmente lido e compreendido por outros
+    programadores.
+\end{frame}
+
+\section{Automatize tarefas repetitivas}
+\begin{frame}
+    Salve comandos em arquivos para que estes seja reutilizados.
+\end{frame}
+
+\section{Use controle de versão}
+\begin{frame}
+    Git
+\end{frame}
+
+\section{Realize testes}
+\begin{frame}
+    Testes automáticos.
+\end{frame}
+
+\begin{frame}
+    \bibliography{bpsc}
+    \bibliographystyle{alpha}
+\end{frame}
+\end{document}
