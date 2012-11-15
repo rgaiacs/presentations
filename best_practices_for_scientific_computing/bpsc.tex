@@ -8,7 +8,7 @@
 % WITHOUT ANY WARRANTY; without even the implied warranty of
 % MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-\documentclass{beamer}
+\documentclass[11pt]{beamer}
 % Utilizar apenas para a classe beamer
 \usetheme{CambridgeUS}
 \let\Tiny=\tiny % Redefine at least \Tiny for avoid warning
@@ -22,6 +22,9 @@
 % \usepackage[top=3cm,left=2cm,right=2cm,bottom=3cm]{geometry}
 \usepackage[brazil]{babel}
 \usepackage{indentfirst}
+\uselanguage{brazil}
+\languagepath{brazil}
+\deftranslation[to=brazil]{Example}{Exemplo}
 
 % Textos
 \newcommand{\flang}[1]{\textit{#1}}
@@ -51,6 +54,7 @@
 % Pacotes gr\'{a}ficos
 \usepackage{graphicx}
 \usepackage{subfigure}
+\usepackage{wrapfig}
 \usepackage{tikz}
 
 % Pacotes para algoritmos
@@ -83,17 +87,17 @@
 \renewcommand{\lstlistingname}{C\'{o}digo}
 \lstset{
 % language=Octave,
-basicstyle=\ttfamily\small,
+basicstyle=\ttfamily\scriptsize,
 columns=flexible,
-numbers=left,
-numberstyle=\footnotesize,
-stepnumber=5,
-numbersep=5pt,
+% numbers=left,
+% numberstyle=\footnotesize,
+% stepnumber=5,
+% numbersep=5pt,
 % backgroundcolor=\color{white},
 % showspaces=false,
 % showstringspaces=false,
 % showtabs=false,
-% frame=single,
+frame=single,
 tabsize=4,
 captionpos=t,
 breaklines=true,
@@ -117,8 +121,9 @@ language=python,
 \makeindex
 
 \begin{document}
-\title{Boas Práticas para Computação Científica}
-\author[Raniere Silva]{Raniere Gaia Costa da Silva}
+\title[Boas Práticas para Comp. Científica]{Boas Práticas para Computação Científica}
+\author[Raniere Silva]{Raniere Gaia Costa da
+Silva\footnote{r.gaia.cs@gmail.com}}
 \date{30/11/2012}
 
 \begin{frame}
@@ -129,6 +134,15 @@ language=python,
     Esta apresentação é baseada no artigo ``Best Practices for Scientific
     Computing'' de D. A. Aruliah \textit{et al.} que encontra-se disponível em
     \url{http://arxiv.org/abs/1210.0530v1}.
+
+    \begin{block}{}
+        Os arquivos desta apresentação encontram-se disponíveis \\
+        em \url{https://github.com/r-gaia-cs/presentations}. \\
+        \vspace{-33pt}
+        \begin{flushright}
+            \includegraphics[height=2cm]{../figures/forkme_right_red.png}
+        \end{flushright}
+    \end{block}
 
     \begin{block}{Licença}
         Salvo indicado o contrário, esta apresentação está licenciada sob a licença
@@ -154,31 +168,236 @@ language=python,
         effort. We describe a set of best practices for scientific software
         development that have solid foundations in research and experience, and
         that improve scientists’ productivity and the reliability of their
-        software. (Retirado de Aruliah\nocite{Aruliah-2012-Best}.)
+        software. (Retirado de \cite{Aruliah-2012-Best}.)
+    \end{quotation}
+\end{frame}
+
+\begin{frame}
+    \begin{quotation}
+        None of these practices will guarantee efficient, error-free, software
+        development, but used in concert they will reduce the number of
+        errors in scientific software, make it easier to reuse, and save the
+        authors of the software time and effort that can used for focusing on
+        the underlying scientific questions. (Retirado de
+        \cite{Aruliah-2012-Best}.)
     \end{quotation}
 \end{frame}
 
 \section{Códigos para seres humanos}
 \begin{frame}
-    Escreva códigos que possa ser facilmente lido e compreendido por outros
-    programadores.
+    Um código deve:
+    \begin{itemize}
+        \item executar corretamente e
+        \item ser fácil de ler.
+    \end{itemize}
+
+    \pause
+    Para que o código seja fácil de ler deve-se considerar os seguintes
+    aspectos quando este for ser escrito:
+    \begin{itemize}
+        \item o leitor possui memória e atenção bastante limitada e
+        \item uso involuntário de reconhecimento de padrões.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Nomes}
+    Nomes devem ser consistente, distintos e significativos. Para isso evite
+    nomes não-descritivos e muito similares.
+
+    \pause
+    \begin{example}[Nomes não-descritivos]
+        \verb+a+, \verb+foo+, \verb+bar+, \ldots
+    \end{example}
+
+    \pause
+    \begin{example}[Nomes similares]
+        \verb+resultado+, \verb+resultado1+, \verb+resultados+, \ldots
+    \end{example}
+\end{frame}
+
+\begin{frame}[fragile]{Estilos}
+    Deve-se seguir um único estilo de indentação e preferencialmente não
+    misturar \verb+CamelCaseNaming+ com \verb+pothole_case_naming+.
+
+    Exemplos de estilos podem ser encontrados em:
+    \begin{description}
+        \item[C++]
+            \url{http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml}.
+        \item[Python]
+            \url{http://google-styleguide.googlecode.com/svn/trunk/pyguide.html}.
+        \item[R]
+            \url{http://google-styleguide.googlecode.com/svn/trunk/google-r-style.html}.
+    \end{description}
+\end{frame}
+
+\begin{frame}[fragile]{Parâmetros (1)}
+    A ordem dos parâmetros é bastante importante para evitar erros por parte
+    dos usuários.
+    \pause
+    \begin{example}
+        Considere a subrotina em Fortran abaixo:
+        \lstinputlisting[language=Fortran]{src/rect_area.f}
+        As seguintes chamadas seriam erradas:
+        \begin{lstlisting}
+      call rect_area(x_1, y_1, x_2, y_2, a)
+      call rect_area(a, x_1, x_2, y_1, y_2)
+        \end{lstlisting}
+    \end{example}
+\end{frame}
+
+\begin{frame}[fragile]{Parâmetros (2)}
+    Via de regra o uso de estruturas/objetos é recomendada.
+    \pause
+    \begin{example}
+        Considere a subrotina para o GNU Octave abaixo:
+        \lstinputlisting[language=Octave]{src/sum_vect.m}
+        A seguinte chamada seria errada:
+        \begin{lstlisting}
+a = [0 0];
+b = [1 1];
+x = sum_vect(a, b);
+        \end{lstlisting}
+    \end{example}
 \end{frame}
 
 \section{Automatize tarefas repetitivas}
-\begin{frame}
-    Salve comandos em arquivos para que estes seja reutilizados.
+\begin{frame}{Evite repetir comandos e clicks (1)}
+    Deve-se evitar repetir comandos e clicks utilizados com muita frequência.
+
+    Em relação aos comandos, recomenda-se utilizar o GNU Make e/ou alguma
+    linguagem de script, e.g.,
+    \begin{itemize}
+        \item GNU Bash,
+        \item Python,
+        \item Ruby,
+        \item GNU Octave, \ldots
+    \end{itemize}
+
+    E em relação aos clicks, recomenda-se atribuí-los a algum novo botão ou
+    atalho.
+\end{frame}
+
+\begin{frame}[fragile]{Evite repetir comandos e clicks (2)}
+    \begin{example}
+        Considere o código abaixo em C:
+        \lstinputlisting[language=C]{src/hello.c}
+        Para a tarefa de compilá-lo e executá-lo podemos utilizar o GNU Make
+        por meio do arquivo abaixo:
+        \lstinputlisting[language=bash]{src/Makefile}
+    \end{example}
+\end{frame}
+
+\begin{frame}[fragile]{Evite repetir comandos e clicks (3)}
+    \begin{example}[Continuação]
+         E por fim,  procedemos com
+        \begin{lstlisting}
+$ make build; make run
+gcc hello.c -o hello
+./hello
+Hello.
+        \end{lstlisting}
+    \end{example}
+\end{frame}
+
+\begin{frame}{Use o histórico}
+    \begin{quotation}
+        (\ldots) most command-line tools have a ``history'' option that
+        lets users display and re-execute recent commands, with minor edits to
+        filenames or parameters. This is often cited as one reason command-line
+        interfaces remain popular. (Retirado de \cite{Aruliah-2012-Best}.)
+    \end{quotation}
 \end{frame}
 
 \section{Use controle de versão}
 \begin{frame}
-    Git
+    \begin{quotation}
+        Two of the biggest challenges scientists and other programmers face
+        when working with code and data are keeping track of changes (and being
+        able to revert them if things go wrong), and working collaboratively on
+        a program or dataset. (Retirado de \cite{Aruliah-2012-Best}.)
+    \end{quotation}
+\end{frame}
+
+\begin{frame}{Comparativos}
+    \begin{center}
+        \begin{tabular}{p{.25\textwidth}p{.2\textwidth}p{.2\textwidth}p{.2\textwidth}}
+            & \textbf{email} & \textbf{\textit{shared folder}} &
+            \textbf{DVCS} \uncover<2->{\\
+            \textbf{Notificação} & Fácil & Difícil & Média} \uncover<3->{\\
+            \textbf{Identificação} & Difícil & Fácil & Fácil} \uncover<4->{\\
+            \textbf{Desfazer} & Difícil & Difícil & Fácil} \uncover<5->{\\
+            \textbf{Procurar} & Difícil & Difícil & Fácil}
+        \end{tabular}
+    \end{center}
+    \uncover<0->{
+    \begin{description}
+        \item[shared folder] use de disco compartilhado por rede local ou
+            serviço nas nuvens, e.g., Dropbox.
+        \item[DCSV] \textit{Distributed Concurrent Versions System}, e.g., git,
+            mercurial (hg).
+    \end{description}
+    }
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{example}
+        \lstinputlisting[language=bash]{src/git.sh.out}
+    \end{example}
 \end{frame}
 
 \section{Realize testes}
 \begin{frame}
-    Testes automáticos.
+    Realizar testes para verificar a execução correta do código é essencial.
+    Fazê-los de maneira eficiêncie é uma arte.
+
+    Os dois tipos principais de testes são:
+    \begin{itemize}
+        \item White-Box testing e
+        \item Black-box testing.
+    \end{itemize}
+
+    \pause
+    Uma de lista \textit{frameworks} para teste encontra-se em
+    \url{http://en.wikipedia.org/wiki/List_of_unit_testing_frameworks}.
 \end{frame}
 
+\begin{frame}[fragile]{Python Doctest (1)}
+    \begin{example}
+        \lstinputlisting[language=Python]{src/sum_vect.py}
+    \end{example}
+\end{frame}
+
+\begin{frame}[fragile]{Python Doctest (2)}
+    \begin{example}[Continuação]
+        \lstinputlisting[language=bash]{src/sum_vect.py.make.out}
+    \end{example}
+\end{frame}
+
+\section{Por onde começar?}
+\begin{frame}
+    Aos poucos ir tornando cada uma das boas práticas um hábito.
+    \pause
+    \begin{block}{Atenção}
+        Não deve-se seguir a risca as soluções aqui propostas.
+    \end{block}
+\end{frame}
+
+\section{Futuros trabalhos}
+\begin{frame}
+    Uma introdução ao git.
+\end{frame}
+
+\section*{Obrigado}
+\begin{frame}
+    \begin{center}
+        Obrigado!
+    \end{center}
+    \begin{center}
+        \url{r.gaia.cs@gmail.com}
+    \end{center}
+\end{frame}
+
+\section*{Bibliografia}
 \begin{frame}
     \bibliography{bpsc}
     \bibliographystyle{alpha}

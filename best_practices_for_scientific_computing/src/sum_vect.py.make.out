@@ -1,0 +1,18 @@
+python -m doctest sum_vect.py
+**********************************************************************
+File "sum_vect.py", line 10, in sum_vect.sum_vect
+Failed example:
+    sum_vect(a, b)
+Exception raised:
+    Traceback (most recent call last):
+      File "/usr/lib/python2.7/doctest.py", line 1289, in __run
+        compileflags, 1) in test.globs
+      File "<doctest sum_vect.sum_vect[4]>", line 1, in <module>
+        sum_vect(a, b)
+      File "sum_vect.py", line 16, in sum_vect
+        y[i] = a[i] + b[i]
+    TypeError: unsupported operand type(s) for +: 'int' and 'str'
+**********************************************************************
+1 items had failures:
+   1 of   5 in sum_vect.sum_vect
+***Test Failed*** 1 failures.
