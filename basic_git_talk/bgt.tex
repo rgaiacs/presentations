@@ -1,0 +1,282 @@
+% Copyright (C) 2012 Raniere Silva
+% 
+% This work is licensed under the Creative Commons
+% Attribution-ShareAlike 3.0 Unported License. To view a copy of this
+% license, visit <http://creativecommons.org/licenses/by-sa/3.0/>.
+% 
+% This work is distributed in the hope that it will be useful, but
+% WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+\documentclass[11pt]{beamer}
+% Utilizar apenas para a classe beamer
+\usetheme{CambridgeUS}
+\let\Tiny=\tiny % Redefine at least \Tiny for avoid warning
+
+% Tipo de arquivo.
+\usepackage[utf8]{inputenc}
+% \usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Configura\c{c}\~{o}es regionais
+% \usepackage[top=3cm,left=2cm,right=2cm,bottom=3cm]{geometry}
+\usepackage[brazil]{babel}
+\usepackage{indentfirst}
+\uselanguage{brazil}
+\languagepath{brazil}
+\deftranslation[to=brazil]{Example}{Exemplo}
+
+% Textos
+\newcommand{\flang}[1]{\textit{#1}}
+
+% Links
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{
+%colorlinks = true,
+}
+\usepackage{breakurl}
+
+% Pacotes matem\'{a}ticos
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\allowdisplaybreaks[4]
+\newtheorem{defi}{Definição}
+\newtheorem{prop}{Proposição}
+
+% Pacotes para tabelas
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{array}
+
+% Pacotes gr\'{a}ficos
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{wrapfig}
+\usepackage{tikz}
+
+% Pacotes para algoritmos
+\usepackage{algorithmic}
+\algsetup{linenosize=\small}
+\renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+\renewcommand{\algorithmicensure}{\textbf{Saída:}}
+\renewcommand{\algorithmicend}{\textbf{fim}}
+\renewcommand{\algorithmicif}{\textbf{se}}
+\renewcommand{\algorithmicthen}{\textbf{ent\~{a}o}}
+\renewcommand{\algorithmicelse}{\textbf{caso contr\'{a}rio}}
+\renewcommand{\algorithmicendif}{\algorithmicend}
+\renewcommand{\algorithmicfor}{\textbf{para}}
+\renewcommand{\algorithmicforall}{\textbf{para todo}}
+\renewcommand{\algorithmicdo}{\textbf{fa\c{c}a}}
+\renewcommand{\algorithmicendfor}{\algorithmicend}
+\renewcommand{\algorithmicwhile}{\textbf{enquanto}}
+\renewcommand{\algorithmicendwhile}{\algorithmicend}
+\renewcommand{\algorithmicrepeat}{\textbf{repita}}
+\renewcommand{\algorithmicuntil}{\textbf{at\'{e}}}
+\renewcommand{\algorithmicreturn}{\textbf{retorne}}
+\renewcommand{\algorithmiccomment}[1]{\hspace{2em}/* #1 */}
+
+\usepackage{algorithm}
+\floatname{algorithm}{Algoritmo}
+
+% Pacotes para c\'{o}digos
+\usepackage{textcomp}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{C\'{o}digo}
+\lstset{
+% language=Octave,
+basicstyle=\ttfamily\scriptsize,
+columns=flexible,
+% numbers=left,
+% numberstyle=\footnotesize,
+% stepnumber=5,
+% numbersep=5pt,
+% backgroundcolor=\color{white},
+% showspaces=false,
+% showstringspaces=false,
+% showtabs=false,
+% frame=single,
+tabsize=4,
+captionpos=t,
+breaklines=true,
+breakatwhitespace=false,
+% caption={\texttt{\lstname}},
+% escapeinside={\%*}{*)},
+% morekeywords={#},
+upquote=true,
+}
+\newcommand{\lcode}[1]{\lstinline!#1!}
+% Configura\{c}c\~{o}es para o python
+\lstdefinestyle{python}{
+language=python,
+% escapeinside={\%}{\^{M},
+}
+\lstnewenvironment{cpython}{\lstset{style=python,}}{}
+\newcommand{\fpython}[1]{\lstinputlisting[style=python,]{#1}}
+
+% Index
+\usepackage{makeidx}
+\makeindex
+
+\begin{document}
+\title{Introdução ao Git}
+\author[Raniere Silva]{Raniere Gaia Costa da
+Silva\footnote{r.gaia.cs@gmail.com}}
+
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\begin{frame}
+    Esta apresentação é baseada na apresentação ``Intro to Git'' de Scott
+    Chacon que encontra-se disponível em
+    \url{https://github.com/schacon/git-presentations}.
+
+    \begin{block}{}
+        Os arquivos desta apresentação encontram-se disponíveis \\
+        em \url{https://github.com/r-gaia-cs/presentations}. \\
+        \vspace{-33pt}
+        \begin{flushright}
+            \includegraphics[height=2cm]{../figures/forkme_right_red.png}
+        \end{flushright}
+    \end{block}
+
+    \begin{block}{Licença}
+        Salvo indicado o contrário, esta apresentação está licenciada sob a licença
+        Creative Commons Atribuição 3.0 Não Adaptada. Para ver uma cópia desta
+        licença, visite http://creativecommons.org/licenses/by/3.0/.
+        \begin{center}
+            \includegraphics{../figures/cc-by-sa.png}
+        \end{center}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \tableofcontents
+\end{frame}
+
+\section{O que é o Git?}
+\begin{frame}
+    Git é um sistema de controle de versão distribuido livre
+    desenvolvido\footnote{A primeira versão foi escrita por Linus Torvalds, o
+    criador do Linux.} para
+    ser rápido e eficiente.
+\end{frame}
+
+\begin{frame}{Quase tudo é local}
+    O Git pode ser utilizado sem conexão de internet ou rede local:
+    \begin{itemize}
+        \item realizar um \textit{diff}, \pause
+        \item visualizar o histórico de um arquivo, \pause
+        \item criar uma nova versão (\textit{commit}), \pause
+        \item retornar para uma versão anterior, \pause
+        \item mudar de ramo (\textit{merge}), \pause
+        \item juntar ramos (\textit{merge}). \pause
+    \end{itemize}
+
+    Por este motivo, ele é rápido.
+\end{frame}
+
+\begin{frame}[fragile]{Git é rápido}
+    \begin{lstlisting}
+git --version
+git version 1.7.9.5
+git clone https://github.com/joyent/node.git -q
+du -sh node
+160M    node
+cd node; time -p git checkout -b newbranch
+Switched to a new branch 'newbranch'
+real 0.27
+user 0.22
+sys 0.04
+time -p cp -Rf node node2
+real 0.37
+user 0.00
+sys 0.36
+    \end{lstlisting}
+\end{frame}
+
+\section{Work flow}
+\begin{frame}[fragile]{Configuração}
+    \begin{lstlisting}
+$ git config --global user.name "Raniere Silva"
+$ git config --global user.email "r.gaia.cs@gmail.com"
+    \end{lstlisting}
+
+    \begin{block}{Arquivos}
+        \begin{enumerate}
+            \item  \lstinline+/etc/gitconfig+
+            \item  \lstinline+~/.gitconfig+
+            \item  \lstinline+.git/config+
+        \end{enumerate}
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Criando um repositório}
+    \begin{lstlisting}
+git --version
+git version 1.7.9.5
+mkdir meu_projeto
+cd meu_projeto; git init
+Initialized empty Git repository in /home/raniere/documents/presentations/basic_git_talk/src/meu_projeto/.git/
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+cd meu_projeto; tree -a
+.
++-- .git
+    +-- branches
+    +-- config
+    +-- description
+    +-- HEAD
+    +-- hooks
+    |   +-- applypatch-msg.sample
+    |   +-- commit-msg.sample
+    |   +-- post-update.sample
+    |   +-- pre-applypatch.sample
+    |   +-- pre-commit.sample
+    |   +-- prepare-commit-msg.sample
+    |   +-- pre-rebase.sample
+    |   +-- update.sample
+    +-- info
+    |   +-- exclude
+    +-- objects
+    |   +-- info
+    |   +-- pack
+    +-- refs
+        +-- heads
+        +-- tags
+
+10 directories, 12 files
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Clonando um repositório}
+    \begin{lstlisting}
+git --version
+git version 1.7.9.5
+git clone https://github.com/abelsiqueira/tutoriais.git
+Cloning into 'tutoriais'...
+remote: Counting objects: 207, done.
+remote: Compressing objects: 100% (135/135), done.
+Receiving objects:  45% (94/207), 236.00 KiB | 203 KiB/s, done.
+Receiving objects:  46% (96/207), 348.00 KiB | 202 KiB/s, done.
+...
+Resolving deltas: 100% (82/82), done.
+    \end{lstlisting}
+\end{frame}
+\section*{Obrigado}
+\begin{frame}
+    \begin{center}
+        Obrigado!
+    \end{center}
+    \begin{center}
+        \url{r.gaia.cs@gmail.com}
+    \end{center}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,9 @@
+run:
+        git --version
+	git clone https://github.com/joyent/node.git -q
+	du -sh node
+	cd node; time -p git checkout -b newbranch
+	time -p cp -Rf node node2
+	@rm -rf node node2
+
+

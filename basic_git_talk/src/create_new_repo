@@ -1,0 +1,6 @@
+run:
+	git --version
+	mkdir meu_projeto
+	cd meu_projeto; git init
+	cd meu_projeto; tree -a
+	@rm -rf meu_projeto
