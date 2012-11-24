@@ -97,7 +97,7 @@ columns=flexible,
 % showspaces=false,
 % showstringspaces=false,
 % showtabs=false,
-frame=single,
+% frame=single,
 tabsize=4,
 captionpos=t,
 breaklines=true,
@@ -309,7 +309,7 @@ Hello.
 \end{frame}
 
 \section{Use controle de versão}
-\begin{frame}
+\begin{frame}{Desafios}
     \begin{quotation}
         Two of the biggest challenges scientists and other programmers face
         when working with code and data are keeping track of changes (and being
@@ -331,7 +331,7 @@ Hello.
     \end{center}
     \uncover<0->{
     \begin{description}
-        \item[shared folder] use de disco compartilhado por rede local ou
+        \item[shared folder] uso de disco compartilhado por rede local ou
             serviço nas nuvens, e.g., Dropbox.
         \item[DCSV] \textit{Distributed Concurrent Versions System}, e.g., git,
             mercurial (hg).
@@ -341,15 +341,36 @@ Hello.
 
 \begin{frame}[fragile]
     \begin{example}
-        \lstinputlisting[language=bash]{src/git.sh.out}
+        \begin{lstlisting}[escapeinside=()]
+git init -q(\pause)
+echo 'Versao 0.1' >> meu_projeto.txt(\pause)
+git add meu_projeto.txt(\pause)
+git commit -q -m 'Iniciei'(\pause)
+echo 'Versao 0.2' >> meu_projeto.txt(\pause)
+git add -u(\pause)
+git commit -q -m 'Mudei'(\pause)
+cat meu_projeto.txt
+Versao 0.1
+Versao 0.2(\pause)
+git checkout HEAD^ -q(\pause)
+cat meu_projeto.txt
+Versao 0.1(\pause)
+git checkout master -q(\pause)
+cat meu_projeto.txt
+Versao 0.1
+Versao 0.2
+        \end{lstlisting}
+        % \lstinputlisting[language=bash]{src/git.sh.out}
     \end{example}
 \end{frame}
 
 \section{Realize testes}
-\begin{frame}
+\begin{frame}{Teste}
     Realizar testes para verificar a execução correta do código é essencial.
+    
     Fazê-los de maneira eficiêncie é uma arte.
 
+    \pause
     Os dois tipos principais de testes são:
     \begin{itemize}
         \item White-Box testing e
@@ -376,7 +397,6 @@ Hello.
 \section{Por onde começar?}
 \begin{frame}
     Aos poucos ir tornando cada uma das boas práticas um hábito.
-    \pause
     \begin{block}{Atenção}
         Não deve-se seguir a risca as soluções aqui propostas.
     \end{block}
@@ -384,7 +404,12 @@ Hello.
 
 \section{Futuros trabalhos}
 \begin{frame}
-    Uma introdução ao git.
+    Pretende-se apresentar o Git com maiores detalhes entre Janeiro e Fevereiro
+    de 2013.
+
+    O material para a apresentação já começou a ser desenvolvido e a versão
+    beta encontra-se em
+    \url{https://github.com/downloads/r-gaia-cs/presentations/bgt.pdf}.
 \end{frame}
 
 \section*{Obrigado}
