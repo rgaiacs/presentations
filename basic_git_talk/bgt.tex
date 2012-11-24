@@ -202,7 +202,7 @@ sys 0.36
 
 \section{Work flow}
 \begin{frame}[fragile]{Configuração}
-    \begin{block}{Arquivos}
+    \begin{block}{Arquivos de configuração}
         \begin{enumerate}
             \item  \lstinline+/etc/gitconfig+
             \item  \lstinline+~/.gitconfig+
@@ -210,11 +210,16 @@ sys 0.36
         \end{enumerate}
     \end{block}
     \pause
-
     \begin{lstlisting}
 $ git config --global user.name "Raniere Silva"
 $ git config --global user.email "r.gaia.cs@gmail.com"
     \end{lstlisting}
+    \pause
+    \begin{block}{Arquivos a serem ignorados}
+        \begin{enumerate}
+            \item \lstinline+.gitignore+
+        \end{enumerate}
+    \end{block}
 \end{frame}
 
 \begin{frame}[fragile]{Criando um repositório}
@@ -320,9 +325,9 @@ Resolving deltas: 100% (82/82), done.
     \begin{center}
         \begin{tikzpicture}
             \useasboundingbox (-4,-6) rectangle (4,1);
-            \node<.(1)->[fill=green, minimum width=5cm] (wd) at (0,0) {Working directory};
-            \node<.(1)->[fill=red, minimum width=5cm] (id) at (0,-2) {Index};
-            \node<.(1)->[fill=blue, minimum width=5cm] (rp) at (0,-4) {Repository};
+            \node<.(1)->[fill=green!50, minimum width=5cm] (wd) at (0,0) {Working directory};
+            \node<.(1)->[fill=red!50, minimum width=5cm] (id) at (0,-2) {Index};
+            \node<.(1)->[fill=blue!50, minimum width=5cm] (rp) at (0,-4) {Repository};
             \draw<.(2)->[->] (wd.south west) to[out=180,in=180] node[midway,fill=white] {add}
             (id.north west);
             \draw<.(3)->[->] (id.south west) to[out=180,in=180] node[midway,fill=white]
@@ -335,16 +340,36 @@ Resolving deltas: 100% (82/82), done.
     \end{center}
 \end{frame}
 
-\begin{frame}{Status}
-    status
+\begin{frame}[fragile]{Status}
+    \begin{lstlisting}
+$ git status    
+    \end{lstlisting}
 \end{frame}
 
-\begin{frame}{Add}
-    add
+\begin{frame}[fragile]{Add}
+    \begin{lstlisting}
+$ git add path/to/file
+$ git add path/
+$ git add .
+    \end{lstlisting}
+    \pause
+    \begin{lstlisting}
+$ git add -A|--all
+    \end{lstlisting}
+    \pause
+    \begin{lstlisting}
+$ git add -u|--update
+    \end{lstlisting}
 \end{frame}
 
-\begin{frame}{Commit}
-    commit
+\begin{frame}[fragile]{Commit}
+    \begin{lstlisting}
+$ git commit -m "Some message"
+    \end{lstlisting}
+    \pause
+    \begin{lstlisting}
+$ git commit -m "Some message" -a
+    \end{lstlisting}
 \end{frame}
 
 \begin{frame}{Ramos}
@@ -413,21 +438,92 @@ Resolving deltas: 100% (82/82), done.
     \only<8>{git merge sand}
 \end{frame}
 
-\begin{frame}{Log}
-    log
+\begin{frame}[fragile]{Log}
+    \begin{lstlisting}
+$ git log
+$ git log -N
+    \end{lstlisting}
+    \pause
+    \begin{lstlisting}
+$ git log --oneline
+    \end{lstlisting}
+    \pause
+    \begin{lstlisting}
+$ git log --graph
+    \end{lstlisting}
 \end{frame}
 
-\begin{frame}{Diff}
-    diff
+\begin{frame}[fragile]{Diff}
+    \begin{lstlisting}
+$ git diff
+    \end{lstlisting}
+    \pause
+    \begin{lstlisting}
+$ git diff --staged
+    \end{lstlisting}
+    \pause
+    \begin{lstlisting}
+$ git diff commit_hash
+    \end{lstlisting}
+    \pause
+    \begin{lstlisting}
+$ git diff commit_hash01 commit_hash02
+    \end{lstlisting}
 \end{frame}
 
-\begin{frame}{Branch}
-    branch
+\begin{frame}[fragile]{Branch}
+    \begin{lstlisting}
+$ git branch new_branch_name
+$ git checkout -b new_branch_name
+    \end{lstlisting}
+    \pause
+    \begin{lstlisting}
+$ git branch
+    \end{lstlisting}
+    \pause
+    \begin{lstlisting}
+$ git branch -a
+    \end{lstlisting}
+    \pause
+    \begin{lstlisting}
+$ git branch -d branch_name
+    \end{lstlisting}
 \end{frame}
 
-\begin{frame}{Checkout}
-    checkout
+\begin{frame}[fragile]{Checkout}
+    \begin{lstlisting}
+$ git checkout branch_name
+    \end{lstlisting}
 \end{frame}
+
+\begin{frame}[fragile]{Merge}
+    \begin{lstlisting}
+$ git merge branch_name
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Tópicos avançados}
+    \begin{enumerate}
+        \item Utilizando versões anteriores, \pause
+        \item Refazendo último commit, \pause
+        \item Alterando a árvore de commits, \pause
+        \item Repositórios remotos, \pause
+        \item Trabalhos colaborativos,
+        \item \ldots
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Mais informações}
+    \begin{enumerate}
+        \item Documentaçãoi (GPL): \url{http://git-scm.com/documentation},
+        \item Pro Git (CC-BY-NC-SA): \url{http://git-scm.com/book},
+        \item Pragmatic Guide to Git
+        \item Pragmatic Version Control Using Git
+        \item Version Control with Git: Powerful tools and techniques for
+            collaborative software development
+    \end{enumerate}
+\end{frame}
+
 \section*{Obrigado}
 \begin{frame}
     \begin{center}
