@@ -1,18 +1,23 @@
-all: bpcs bgt
+PFolder=''
+PFile=''
+
+all: bpcs bgt agt
+
+pdf:
+	cd $(PFolder); pdflatex -interaction nonstopmode $(PFile)
+	-cd $(PFolder); bibtex nonstopmode $(PFile)
+	cd $(PFolder); pdflatex -interaction nonstopmode $(PFile)
+	cd $(PFolder); pdflatex -interaction nonstopmode $(PFile)
+	mv $(PFolder)/$(subst .tex,.pdf,$(PFile)) $(subst .tex,.pdf,$(PFile))
 
 bpcs:
-	cd best_practices_for_scientific_computing; pdflatex -interaction nonstopmode bpsc.tex
-	-cd best_practices_for_scientific_computing; bibtex nonstopmode bpsc.tex
-	cd best_practices_for_scientific_computing; pdflatex -interaction nonstopmode bpsc.tex
-	cd best_practices_for_scientific_computing; pdflatex -interaction nonstopmode bpsc.tex
-	mv best_practices_for_scientific_computing/bpsc.pdf bpsc.pdf
+	$(MAKE) PFolder=best_practices_for_scientific_computing PFile=bpsc.tex pdf
 
 bgt:
-	cd basic_git_talk; pdflatex -interaction nonstopmode bgt.tex
-	-cd basic_git_talk; bibtex nonstopmode bgt.tex
-	cd basic_git_talk; pdflatex -interaction nonstopmode bgt.tex
-	cd basic_git_talk; pdflatex -interaction nonstopmode bgt.tex
-	mv basic_git_talk/bgt.pdf bgt.pdf
+	$(MAKE) PFolder=basic_git_talk PFILE=bgt.tex pdf
+
+agt:
+	$(MAKE) PFolder=advanced_git_talk PFILE=agt.tex pdf
 
 help:
 	@echo "Para compilar todas as apresentacoes utilize apenas"
@@ -21,3 +26,4 @@ help:
 	@echo "como parametro um dos seguintes argumentos:"
 	@echo "- bpcs: para best_practices_for_scientific"
 	@echo "- bgt: para basic_git_talk"
+	@echo "- agt: para advanced_git_talk"

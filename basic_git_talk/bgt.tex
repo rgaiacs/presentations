@@ -174,31 +174,31 @@ Silva\footnote{r.gaia.cs@gmail.com}}
         \item visualizar o histórico de um arquivo, \pause
         \item criar uma nova versão (\textit{commit}), \pause
         \item retornar para uma versão anterior, \pause
-        \item mudar de ramo (\textit{merge}), \pause
+        \item mudar de ramo, \pause
         \item juntar ramos (\textit{merge}). \pause
     \end{itemize}
 
     Por este motivo, ele é rápido.
 \end{frame}
 
-\begin{frame}[fragile]{Git é rápido}
-    \begin{lstlisting}
-git --version
-git version 1.7.9.5
-git clone https://github.com/joyent/node.git -q
-du -sh node
-160M    node
-cd node; time -p git checkout -b newbranch
-Switched to a new branch 'newbranch'
-real 0.27
-user 0.22
-sys 0.04
-time -p cp -Rf node node2
-real 0.37
-user 0.00
-sys 0.36
-    \end{lstlisting}
-\end{frame}
+% O Frame abaixo foi removido para evitar problemas.
+%
+% \begin{frame}[fragile]{Git é rápido}
+%     \begin{lstlisting}
+% git clone https://github.com/joyent/node.git -q
+% du -sh node
+% 160M    node
+% cd node; time -p git checkout -b newbranch
+% Switched to a new branch 'newbranch'
+% real 0.27
+% user 0.22
+% sys 0.04
+% time -p cp -Rf node node2
+% real 0.37
+% user 0.00
+% sys 0.36
+%     \end{lstlisting}
+% \end{frame}
 
 \section{Work flow}
 \begin{frame}[fragile]{Configuração}
@@ -224,8 +224,6 @@ $ git config --global user.email "r.gaia.cs@gmail.com"
 
 \begin{frame}[fragile]{Criando um repositório}
     \begin{lstlisting}
-git --version
-git version 1.7.9.5
 mkdir meu_projeto
 cd meu_projeto; git init
 Initialized empty Git repository in /home/raniere/documents/presentations/basic_git_talk/src/meu_projeto/.git/
@@ -265,8 +263,6 @@ cd meu_projeto; tree -a
 
 \begin{frame}[fragile]{Clonando um repositório}
     \begin{lstlisting}
-git --version
-git version 1.7.9.5
 git clone https://github.com/abelsiqueira/tutoriais.git
 Cloning into 'tutoriais'...
 remote: Counting objects: 207, done.
@@ -300,6 +296,12 @@ Resolving deltas: 100% (82/82), done.
     \begin{center}
         \begin{tikzpicture}
             \useasboundingbox (-1,-6) rectangle (5,1);
+            \node<.(2)->[fill=green!50, minimum width=5cm, fit={(foo) (bar)},
+            below=4.5cm of root.west, anchor=west] {};
+            \node<.(3)->[fill=red!50, minimum width=5cm, fit={(git/index)},
+            below=2cm of root.west, anchor=west] {};
+            \node<.(4)->[fill=blue!50, minimum width=5cm, fit={(git/repository)},
+            below=3cm of root.west, anchor=west] {};
             \node<.(1)->[anchor=west] at (0,0) (root) {./};
             \node<.(1)->[anchor=west] at (1,-1) (git) {.git};
             \node<.(1)->[anchor=west] at (2,-2) (git/index) {index};
@@ -311,12 +313,6 @@ Resolving deltas: 100% (82/82), done.
             \draw<.(1)-> (git) |- (git/repository);
             \draw<.(1)-> (root) |- (foo);
             \draw<.(1)-> (root) |- (bar);
-            \node<.(2)->[draw=green, minimum width=5cm, fit={(foo) (bar)},
-            below=4.5cm of root.west, anchor=west] {};
-            \node<.(3)->[draw=red, minimum width=5cm, fit={(git/index)},
-            below=2cm of root.west, anchor=west] {};
-            \node<.(4)->[draw=blue, minimum width=5cm, fit={(git/repository)},
-            below=3cm of root.west, anchor=west] {};
         \end{tikzpicture}
     \end{center}
 \end{frame}
@@ -363,6 +359,9 @@ $ git add -u|--update
 \end{frame}
 
 \begin{frame}[fragile]{Commit}
+    \begin{lstlisting}
+$git commit
+    \end{lstlisting}
     \begin{lstlisting}
 $ git commit -m "Some message"
     \end{lstlisting}
@@ -502,14 +501,54 @@ $ git merge branch_name
     \end{lstlisting}
 \end{frame}
 
+\section{Backup}
+\begin{frame}{Prevenção contra acidentes}
+    É recomendado manter uma cópia de segurança do repositório para prevenir
+    contra:
+    \begin{itemize}
+        \item roubo/perda do equipamento em que o repositório estava armazenado,
+        \item danos irreparáveis no equipamento em que o repositório estava armazenado,
+        \item remoção acidental do repositório, \ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Serviços de hosting}
+    Algumas empresas prestam serviço de hosting para repositórios versionados
+    com o Git. Algumas delas são:
+    \begin{center}
+        \begin{tabular}{p{0.4\textwidth}p{0.2\textwidth}p{0.2\textwidth}}
+            Site & Público & Privado \\
+            \url{http://github.com/} & Sim & Pago \\
+            \url{https://bitbucket.org/}\footnote{Limitado em colaboradores} & Sim & Sim \\
+            \url{http://code.google.com/} & Sim & Não \\
+            \url{https://gitorious.org/} & Sim & Não
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Atualização (1)}
+    Para atualizar o backup utiliza-se
+    \begin{lstlisting}
+$ git push branch_to_upload brach_with_changes
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Atualização (2)}
+    Para atualizar o repositório local com modificações ocorridas no backup
+    utiliza-se
+    \begin{lstlisting}
+$ git pull branch_of_backup
+    \end{lstlisting}
+\end{frame}
+
+\section{Outras possibilidades}
 \begin{frame}{Tópicos avançados}
     \begin{enumerate}
         \item Utilizando versões anteriores, \pause
         \item Refazendo último commit, \pause
         \item Alterando a árvore de commits, \pause
         \item Repositórios remotos, \pause
-        \item Trabalhos colaborativos,
-        \item \ldots
+        \item Trabalhos colaborativos, \ldots
     \end{enumerate}
 \end{frame}
 
