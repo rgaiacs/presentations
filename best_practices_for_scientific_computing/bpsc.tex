@@ -133,7 +133,7 @@ Silva\footnote{r.gaia.cs@gmail.com}}
 \begin{frame}
     Esta apresentação é baseada no artigo ``Best Practices for Scientific
     Computing'' de D. A. Aruliah \textit{et al.} que encontra-se disponível em
-    \url{http://arxiv.org/abs/1210.0530v1}.
+    \url{http://arxiv.org/abs/1210.0530v2}.
 
     \begin{block}{}
         Os arquivos desta apresentação encontram-se disponíveis \\
@@ -161,8 +161,8 @@ Silva\footnote{r.gaia.cs@gmail.com}}
 \section{Introdução}
 \begin{frame}
     \begin{quotation}
-        Scientists spend an increasing amount of time building and using
-        software. However, most scientists are never taught how to do this
+        \textbf<2>{Scientists spend an increasing amount of time building and using
+        software}. However, most scientists are never taught how to do this
         efficiently. As a result, many are unaware of tools and practices that
         would allow them to write more reliable and maintainable code with less
         effort. We describe a set of best practices for scientific software
@@ -174,8 +174,8 @@ Silva\footnote{r.gaia.cs@gmail.com}}
 
 \begin{frame}
     \begin{quotation}
-        None of these practices will guarantee efficient, error-free, software
-        development, but used in concert they will reduce the number of
+        \textbf<2>{None of these practices will guarantee efficient, error-free, software
+        development}, but used in concert they will reduce the number of
         errors in scientific software, make it easier to reuse, and save the
         authors of the software time and effort that can used for focusing on
         the underlying scientific questions. (Retirado de
@@ -184,7 +184,7 @@ Silva\footnote{r.gaia.cs@gmail.com}}
 \end{frame}
 
 \section{Códigos para seres humanos}
-\begin{frame}
+\begin{frame}{O Código}
     Um código deve:
     \begin{itemize}
         \item executar corretamente e
@@ -291,8 +291,11 @@ x = sum_vect(a, b);
     \begin{example}[Continuação]
          E por fim,  procedemos com
         \begin{lstlisting}
-$ make build; make run
+$ make run
 gcc hello.c -o hello
+./hello
+Hello.
+$ make run
 ./hello
 Hello.
         \end{lstlisting}
@@ -303,17 +306,24 @@ Hello.
     \begin{quotation}
         (\ldots) most command-line tools have a ``history'' option that
         lets users display and re-execute recent commands, with minor edits to
-        filenames or parameters. This is often cited as one reason command-line
-        interfaces remain popular. (Retirado de \cite{Aruliah-2012-Best}.)
+        filenames or parameters. This is often cited as \textbf{one reason command-line
+        interfaces remain popular}. (Retirado de \cite{Aruliah-2012-Best}.)
+    \end{quotation}
+\end{frame}
+
+\begin{frame}{Permita a reprodução}
+    \begin{quotation}
+        In order to maximize reproducibility, everything needed to re-create the
+        output should be recorded (\dots). Retirado de \cite{Aruliah-2012-Best}.)
     \end{quotation}
 \end{frame}
 
 \section{Use controle de versão}
 \begin{frame}{Desafios}
     \begin{quotation}
-        Two of the biggest challenges scientists and other programmers face
-        when working with code and data are keeping track of changes (and being
-        able to revert them if things go wrong), and working collaboratively on
+        Two of the \textbf<2>{biggest challenges} scientists and other programmers face
+        when working with code and data are \textbf<2>{keeping track of changes} (and being
+        able to revert them if things go wrong), and \textbf<2>{working collaboratively} on
         a program or dataset. (Retirado de \cite{Aruliah-2012-Best}.)
     \end{quotation}
 \end{frame}
@@ -339,7 +349,7 @@ Hello.
     }
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Git}
     \begin{example}
         \begin{lstlisting}[escapeinside=()]
 git init -q(\pause)

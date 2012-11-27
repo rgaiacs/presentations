@@ -1,4 +1,4 @@
-build:
+hello: hello.c
 	gcc hello.c -o hello
-run:
+run: hello
 	./hello
