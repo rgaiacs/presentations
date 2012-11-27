@@ -290,11 +290,11 @@ x = sum_vect(a, b);
 \begin{frame}[fragile]{Evite repetir comandos e clicks (3)}
     \begin{example}[Continuação]
          E por fim,  procedemos com
-        \begin{lstlisting}
+        \begin{lstlisting}[escapeinside=()]
 $ make run
 gcc hello.c -o hello
 ./hello
-Hello.
+Hello.(\pause)
 $ make run
 ./hello
 Hello.
@@ -304,7 +304,7 @@ Hello.
 
 \begin{frame}{Use o histórico}
     \begin{quotation}
-        (\ldots) most command-line tools have a ``history'' option that
+        [\ldots] most command-line tools have a ``history'' option that
         lets users display and re-execute recent commands, with minor edits to
         filenames or parameters. This is often cited as \textbf{one reason command-line
         interfaces remain popular}. (Retirado de \cite{Aruliah-2012-Best}.)
@@ -314,7 +314,7 @@ Hello.
 \begin{frame}{Permita a reprodução}
     \begin{quotation}
         In order to maximize reproducibility, everything needed to re-create the
-        output should be recorded (\dots). Retirado de \cite{Aruliah-2012-Best}.)
+        output should be recorded [\ldots]. Retirado de \cite{Aruliah-2012-Best}.)
     \end{quotation}
 \end{frame}
 
@@ -372,6 +372,14 @@ Versao 0.2
         \end{lstlisting}
         % \lstinputlisting[language=bash]{src/git.sh.out}
     \end{example}
+\end{frame}
+
+\begin{frame}{O que versionar?}
+    \begin{quotation}
+        [\ldots] \textbf<2>{everything} that has been created manually should be put in
+        version control, including programs, original field observations, and
+        the source files for papers. [\ldots] (Retirado de \cite{Aruliah-2012-Best}.)
+    \end{quotation}
 \end{frame}
 
 \section{Realize testes}
