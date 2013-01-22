@@ -6,12 +6,14 @@ Intruções para gerar o pdf de alguma apresentação
 =================================================
 
 Para gerar o pdf de alguma apresentação você irá precisar de alguma
-distribuição do LaTeX instalada e configurada.
+distribuição do LaTeX instalada e configurada (e preferencialmente o GNU Make).
 
 Na raiz deste repositório existe um Makefile configurado para gerar o pdf das
 apresentações. Para informações de como utilizá-lo ::
 
     $ make help
+
+Caso não tenha o GNU Make instalado na
 
 Descrições das apresentações
 ============================

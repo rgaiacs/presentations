@@ -118,12 +118,15 @@ language=python,
 \lstnewenvironment{cpython}{\lstset{style=python,}}{}
 \newcommand{\fpython}[1]{\lstinputlisting[style=python,]{#1}}
 
+% Pacotes para incluir arquivos
+\usepackage{attachfile}
+
 % Index
 \usepackage{makeidx}
 \makeindex
 
 \begin{document}
-\title{Uso Eficiente do Git }
+\title{Uso Eficiente do Git}
 \author[Raniere Silva]{Raniere Gaia Costa da
 Silva\footnote{r.gaia.cs@gmail.com}}
 
@@ -134,7 +137,8 @@ Silva\footnote{r.gaia.cs@gmail.com}}
 \begin{frame}
     Esta apresentação é baseada na apresentação ``Intro to Git'' de Scott
     Chacon que encontra-se disponível em
-    \url{https://github.com/schacon/git-presentations}.
+    \url{https://github.com/schacon/git-presentations} e no ``Git Ready''
+    (\url{http://gitready.com/}) de Nick Quaranto.
 
     \begin{block}{}
         Os arquivos desta apresentação encontram-se disponíveis \\
@@ -159,18 +163,115 @@ Silva\footnote{r.gaia.cs@gmail.com}}
     \tableofcontents
 \end{frame}
 
-\section{Revisão}
-\begin{frame}{Git}
-    Git é um sistema de controle de versão distribuido livre
-    desenvolvido\footnote{A primeira versão foi escrita por Linus Torvalds, o
-    criador do Linux.} para
-    ser rápido e eficiente.
+\section{Refazendo o último commit}
+
+\section{Juntando branchs}
+\begin{frame}{Merge}
+    \begin{center}
+        \begin{tikzpicture}
+            \useasboundingbox (-1,0) rectangle (6,4);
+            \node [draw, circle] (C0) at (0,0) {C0};
+            \node [draw, circle] (C1) at (1,0) {C1};
+            \draw  (C0) -- (C1);
+            \node [draw, circle] (C2) at (2,1) {C2};
+            \draw  (C1) -- (C2);
+            \node [draw, circle] (C3) at (3,1) {C3};
+            \draw  (C2) -- (C3);
+            \node [draw, circle] (C4) at (4,0) {C4};
+            \draw  (C1) -- (C4);
+            \only<1>{
+                \draw[->] (5,2) node[fill=yellow] {master} -| (C4);
+                \draw[->] (5,3) node[fill=yellow] {head} -| (C4);
+                \draw[->] (5,4) node[fill=gray] {sand} -| (C3);
+            }
+            \node<.(2)->[draw, circle] (C5) at (5,0) {C5};
+            \draw<.(2)-> (C4) -- (C5);
+            \draw<.(2)-> (C3) to[out=0] (C5);
+            \only<2>{
+                \draw[->] (6,2) node[fill=yellow] {master} -| (C5);
+                \draw[->] (6,3) node[fill=yellow] {head} -| (C5);
+                \draw[->] (6,4) node[fill=gray] {sand} -| (C5);
+            }
+        \end{tikzpicture}
+    \end{center}
+    \only<2>{\attachfile[icon=Paperclip, mimetype=text/plain]{examples/merge.sh} git merge sand}
 \end{frame}
 
-\section{Branchs}
+\begin{frame}{Rebase}
+    \begin{center}
+        \begin{tikzpicture}
+            \useasboundingbox (-1,0) rectangle (6,4);
+            \node [draw, circle] (C0) at (0,0) {C0};
+            \node [draw, circle] (C1) at (1,0) {C1};
+            \draw  (C0) -- (C1);
+            \only<1>{
+                \node [draw, circle] (C2) at (2,1) {C2};
+                \draw  (C1) -- (C2);
+                \node [draw, circle] (C3) at (3,1) {C3};
+                \draw  (C2) -- (C3);
+                \node [draw, circle] (C4) at (4,0) {C4};
+                \draw  (C1) -- (C4);
+                \draw[->] (5,2) node[fill=yellow] {master} -| (C4);
+                \draw[->] (5,3) node[fill=yellow] {head} -| (C4);
+                \draw[->] (5,4) node[fill=gray] {sand} -| (C3);
+            }
+            \only<2>{
+                \node [draw, circle] (C2M) at (2,0) {C2};
+                \draw  (C1) -- (C2M);
+                \node [draw, circle] (C3M) at (3,0) {C3};
+                \draw  (C2M) -- (C3M);
+                \node [draw, circle] (C4M) at (4,0) {C4};
+                \draw  (C3M) -- (C4M);
+            }
+            \only<2>{
+                \draw[->] (6,2) node[fill=yellow] {master} -| (C4M);
+                \draw[->] (6,3) node[fill=yellow] {head} -| (C4M);
+                \draw[->] (6,4) node[fill=gray] {sand} -| (C3M);
+            }
+        \end{tikzpicture}
+    \end{center}
+    \only<2>{\attachfile[icon=Paperclip, mimetype=text/plain]{examples/rebase.sh} git rebase sand}
+\end{frame}
 
-\section{Remote}
+% \section{Reorganizando commits}
 
+\section{Agrupando commits}
+\begin{frame}{Squash}
+    \begin{center}
+        \begin{tikzpicture}
+            \useasboundingbox (-1,0) rectangle (6,4);
+            \node [draw, circle] (C0) at (0,0) {C0};
+            \node [draw, circle] (C1) at (1,0) {C1};
+            \draw  (C0) -- (C1);
+            \only<1>{
+                \node [draw, circle] (C2) at (2,1) {C2};
+                \draw  (C1) -- (C2);
+                \node [draw, circle] (C3) at (3,1) {C3};
+                \draw  (C2) -- (C3);
+                \node [draw, circle] (C4) at (4,0) {C4};
+                \draw  (C1) -- (C4);
+                \draw[->] (5,2) node[fill=yellow] {master} -| (C4);
+                \draw[->] (5,3) node[fill=yellow] {head} -| (C4);
+                \draw[->] (5,4) node[fill=gray] {sand} -| (C3);
+            }
+            \only<2>{
+                \node [draw, circle] (C2M) at (2,0) {C2};
+                \draw  (C1) -- (C2M);
+                \node [draw, circle] (C3M) at (3,0) {C3};
+                \draw  (C2M) -- (C3M);
+                \node [draw, circle] (C4M) at (4,0) {C4};
+                \draw  (C3M) -- (C4M);
+            }
+            \only<2>{
+                \draw[->] (6,2) node[fill=yellow] {master} -| (C4M);
+                \draw[->] (6,3) node[fill=yellow] {head} -| (C4M);
+                \draw[->] (6,4) node[fill=gray] {sand} -| (C3M);
+            }
+        \end{tikzpicture}
+    \end{center}
+    \only<2>{\attachfile[icon=Paperclip,
+    mimetype=text/plain]{examples/squash.sh} git rebase -i}
+\end{frame}
 \section*{Obrigado}
 \begin{frame}
     \begin{center}
