@@ -1,7 +1,7 @@
 PFolder=''
 PFile=''
 
-all: bpcs bgt agt
+all: bpcs bgt agt bbb epub_itf epub_20th
 
 pdf:
 	cd $(PFolder); latexmk -pdf $(PFile); mv $(subst .tex,.pdf,$(PFile)) ../$(PFolder).pdf
@@ -14,6 +14,15 @@ bgt:
 
 agt:
 	$(MAKE) PFolder=advanced_git_talk PFile=agt.tex pdf
+
+bbb:
+	$(MAKE) PFolder=basic_branch_and_bounds PFile=bbb.tex pdf
+
+epub_itf:
+	$(MAKE) PFolder=epub_is_the_future PFile=epub_itf.tex pdf
+
+epub_20th:
+	$(MAKE) PFolder=epub_book_in_20th_century PFile=epub_20th.tex pdf
 
 clean:
 	-rm */*.acn
@@ -49,6 +58,7 @@ clean:
 	-rm */*.toc
 	-rm */*.vrb
 	-rm */*.xdy
+	-rm */*.xmpi
 	-rm */*.tdo
 
 help:
@@ -62,6 +72,9 @@ help:
 	@echo "* bpcs: para best_practices_for_scientific"
 	@echo "* bgt: para basic_git_talk"
 	@echo "* agt: para advanced_git_talk"
+	@echo "* bbb: para basic_branc_and_bounds"
+	@echo "* epub_itf: para epub_is_the_future"
+	@echo "* epub_20th: para epub_book_in_20th_century"
 	@echo ""
 	@echo "Para remover os arquivos criados durante a compilação"
 	@echo "utilize"

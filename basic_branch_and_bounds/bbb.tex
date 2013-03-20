@@ -1,0 +1,147 @@
+% Copyright (C) 2012 Raniere Silva
+%
+% This work is licensed under the Creative Commons
+% Attribution-ShareAlike 3.0 Unported License. To view a copy of this
+% license, visit <http://creativecommons.org/licenses/by-sa/3.0/>.
+%
+% This work is distributed in the hope that it will be useful, but
+% WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+\documentclass[11pt]{beamer}
+
+\input{../style.tex}
+
+\newcommand{\flang}[1]{\textit{#1}}
+
+\hypersetup{
+pdftitle={Branch \& Bounds - Básico},
+pdfauthor={Raniere Silva},
+pdfsubject={Programação Combinatória, Programação Inteira, Branch \& Bounds},
+pdfcreator={Raniere Silva},
+pdfkeywords={Programação Combinatória, Programação Inteira, Branch \& Bounds},
+}
+\includexmp{bbb}
+
+\newtheorem{defi}{Definição}
+\newtheorem{prop}{Proposição}
+
+\renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+\renewcommand{\algorithmicensure}{\textbf{Saída:}}
+\renewcommand{\algorithmicend}{\textbf{fim}}
+\renewcommand{\algorithmicif}{\textbf{se}}
+\renewcommand{\algorithmicthen}{\textbf{ent\~{a}o}}
+\renewcommand{\algorithmicelse}{\textbf{caso contr\'{a}rio}}
+\renewcommand{\algorithmicendif}{\algorithmicend}
+\renewcommand{\algorithmicfor}{\textbf{para}}
+\renewcommand{\algorithmicforall}{\textbf{para todo}}
+\renewcommand{\algorithmicdo}{\textbf{fa\c{c}a}}
+\renewcommand{\algorithmicendfor}{\algorithmicend}
+\renewcommand{\algorithmicwhile}{\textbf{enquanto}}
+\renewcommand{\algorithmicendwhile}{\algorithmicend}
+\renewcommand{\algorithmicrepeat}{\textbf{repita}}
+\renewcommand{\algorithmicuntil}{\textbf{at\'{e}}}
+\renewcommand{\algorithmicreturn}{\textbf{retorne}}
+\renewcommand{\algorithmiccomment}[1]{\hspace{2em}/* #1 */}
+
+\renewcommand{\lstlistingname}{C\'{o}digo}
+
+\begin{document}
+\title[Branch \& Bounds - Básico]{Branch \& Bounds - Básico}
+\author[Raniere Silva]{Raniere Gaia Costa da
+Silva\footnote{r.gaia.cs@gmail.com}}
+\date{22/03/2013}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+\begin{frame}
+  \begin{block}{}
+    Os arquivos desta apresentação encontram-se disponíveis \\
+    em \url{https://github.com/r-gaia-cs/presentations}. \\
+    \vspace{-33pt}
+    \begin{flushright}
+      \includegraphics[height=2cm]{../figures/forkme_right_red.png}
+    \end{flushright}
+  \end{block}
+
+  \begin{block}{Licença}
+    Salvo indicado o contrário, esta apresentação está licenciada sob a
+    Licença Creative Commons Atribuição-CompartilhaIgual 3.0 Não Adaptada .
+    Para ver uma cópia desta licença, visite
+    \url{http://creativecommons.org/licenses/by/3.0/deep.pt_BR}.
+    \begin{center}
+      \includegraphics{../figures/cc-by-sa.png}
+    \end{center}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+    \tableofcontents
+\end{frame}
+
+\section{Motivação}
+\begin{frame}
+  \frametitle{Problemas Reais}
+  \begin{itemize}
+    \item \flang{Scheduling}
+    \item \flang{Planning}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exemplos}
+  \begin{itemize}
+    \item Problema de designação Trabalho-Homem/Máquina
+    \item Problema de Cobertura
+    \item Problema da Mochila
+    \item Problema do Caixeiro Viajante
+  \end{itemize}
+\end{frame}
+
+\section{Classes de Problemas}
+\begin{frame}{PL, PNL e PI}
+  \begin{center}
+    \begin{tikzpicture}[fill opacity=0.5]
+      \filldraw[fill=blue] (120:1.5) circle (2) node[opaque] {PL};
+      \pause
+      \filldraw[fill=green] (240:1.5) circle (2) node[opaque] {PNL};
+      \pause
+      \filldraw[fill=red] (0:1.5) circle (2) node[opaque] {PI};
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\section{Modelagem}
+\begin{frame}
+  Modelagem Básica
+\end{frame}
+
+\section{Enumeração de Soluções}
+\begin{frame}
+  Enumeração
+\end{frame}
+
+\section{Branch \& Bounds}
+\begin{frame}
+  Motivação
+\end{frame}
+
+\section*{Obrigado}
+\begin{frame}
+  \begin{center}
+    Obrigado!
+  \end{center}
+  \begin{center}
+    \url{r.gaia.cs@gmail.com}
+  \end{center}
+\end{frame}
+
+\section*{Bibliografia}
+\begin{frame}
+  \nocite{wolsey1998integer}
+  \bibliography{bbb}
+  \bibliographystyle{alpha}
+\end{frame}
+\end{document}
