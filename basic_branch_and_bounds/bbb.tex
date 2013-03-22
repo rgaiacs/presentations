@@ -50,6 +50,10 @@ pdfkeywords={Programação Combinatória, Programação Inteira, Branch \& Bound
   $x_0$ & $x_1$ & $f(x)$ \\ \hline
   $#1$ & $#2$ & $#3$ \\ \hline
 \end{tabular}}
+\newcommand{\nodebbbthree}[3]{\begin{tabular}{|c|c|c|} \hline
+  $x_0$ & $x_1$ & $x_3$ \\ \hline
+  $#1$ & $#2$ & $#3$ \\ \hline
+\end{tabular}}
 \newcommand{\nodebounds}[3]{\begin{tabular}{|c|c|c|} \hline
   \multirow{2}{*}{$#1$} & $\overline{z}$ & $#2$ \\ \cline{2-3}
   & $\underline{z}$ &  $#3$ \\ \hline
@@ -91,22 +95,21 @@ Silva\footnote{r.gaia.cs@gmail.com}}
 \end{frame}
 
 \section{Motivação}
-\begin{frame}
-  \frametitle{Problemas Reais}
-  \begin{itemize}
-    \item \flang{Scheduling}
-    \item \flang{Planning}
-  \end{itemize}
+\begin{frame}{Rotas Aéreas}
+  Dado um conjunto $S$ de aeronaves e um conjunto $A$ de aeroportos, determinar
+  quais aeronaves irão percorrer a rota $r_{ij} \in R = A \times A$ de forma a maximizar
+  o número de clientes.
 \end{frame}
 
-\begin{frame}
-  \frametitle{Exemplos}
-  \begin{itemize}
-    \item Problema de designação Trabalho-Homem/Máquina
-    \item Problema de Cobertura
-    \item Problema da Mochila
-    \item Problema do Caixeiro Viajante
-  \end{itemize}
+\begin{frame}{Suprimento de Energia Elétrica}
+  Em uma cidade, dado um conjunto $R$ de residências e um conjunto $A$ de
+  possíveis locais para estações de transmissão, determinar onde serão
+  construídas as estações de forma a maximizar o número de residências cobertas.
+\end{frame}
+
+\begin{frame}{Problema da Mochila}
+  Para uma viagem, determinar quais itens de um conjunto $I$ deve ser levados em uma
+  mochila de forma a maximizar o ``funcionalidade da mochila''.
 \end{frame}
 
 \section{Classes de Problemas}
@@ -127,22 +130,53 @@ Silva\footnote{r.gaia.cs@gmail.com}}
 
 \begin{frame}{PC igual a PI?}
   \begin{dmath}[number=PC]
-    \max \left\{ \sum_{i \in I} c_i \mid I \subset \left\{ 1, \ldots, n \right\}
-    \right\}
+    \max \left\{ \sum_{i \in I} c_i \mid I \subset \left\{ 1, \ldots, n
+    \right\} \right\}.
   \end{dmath}
   \pause
   \begin{align}
-    \text{max } & c^T x \tag{PI} \\
-    \text{s.a } & x \in \left\{ 0, 1 \right\}^n \nonumber
+    \text{max } & c^T x \tag{PI}, \\
+    \text{s.a } & x \in \left\{ 0, 1 \right\}^n. \nonumber
   \end{align}
 \end{frame}
 
 \section{Modelagem}
-\begin{frame}{Exemplo}
+\begin{frame}{Rotas Aéreas}
+  \begin{align*}
+    \text{max } & \sum_{i, j \in A} c_{ij} \left( \sum_{k \in S} x_{ijk}
+    \right), \\
+    \text{s.a } & \sum_{i, j \in A} x_{ijk} = 1, && \text{para todo $k \in
+    S$}, \\
+    & x_{ijk} \in \left\{ 0, 1 \right\}, && \text{para todo $i, j \in A$ e $k
+    \in S$}.
+  \end{align*}
+\end{frame}
+
+\begin{frame}{Suprimento de Energia Elétrica}
+  \begin{align*}
+    \text{max } & \sum_{i \in R, j \in A} x_{ij}, \\
+    \text{s.a } & \sum_{i \in R} x_{ij} = 1, && \text{para todo $j \in A$}, \\
+    & d_{ij} x_{ij} \leq D, && \text{para todo $i \in R$, para todo $j \in A$},
+    \\
+    & x_{ij} \in \left\{ 0, 1 \right\}, && \text{para todo $i \in R$, para todo
+    $j \in A$}.
+  \end{align*}
+\end{frame}
+
+\begin{frame}{Problema da Mochila}
+  \begin{align*}
+    \text{max } & \sum_{i \in I} f_i x_i, \\
+    \text{s.a } & \sum_{i \in I} p_i x_i \leq P, \\
+    & x_{i} \in \left\{ 0, 1 \right\}, && \text{para todo $i \in I$}.
+  \end{align*}
+\end{frame}
+
+\begin{frame}{Exemplo Minimal}
   \begin{align}
-    \text{max } & x_1 + x_2 \nonumber \\
+    \text{max } & x_1 + x_2  + x_3, \nonumber \\
     \text{s.a. } & x_1 \in \left\{ 0, 1 \right\}, \tag{EM} \label{eq:EM} \\
-    & x_2 \in \left\{ 0, 1 \right\}. \nonumber
+    & x_2 \in \left\{ 0, 1 \right\}, \nonumber \\
+    & x_3 \in \left\{ 0, 1 \right\}. \nonumber
   \end{align}
 \end{frame}
 
@@ -150,29 +184,44 @@ Silva\footnote{r.gaia.cs@gmail.com}}
 \begin{frame}{Árvore de enumeração}
   \begin{center}
     \begin{tikzpicture}
-      \useasboundingbox (-6,1) rectangle (6,-5);
+      \useasboundingbox (-6,1) rectangle (6,-7);
       \coordinate (root) at (0,0);
-      \coordinate (x1=0) at (-2,-2);
-      \coordinate (x1=1) at (2,-2);
+      \coordinate (0) at (-2,-1.5);
+      \coordinate (1) at (2,-1.5);
       \coordinate (00) at (-4.5,-4);
       \coordinate (01) at (-1.5,-4);
       \coordinate (10) at (1.5,-4);
       \coordinate (11) at (4.5,-4);
+      \coordinate (000) at (-4.5,-6);
+      \coordinate (001) at (-1.5,-6);
+      \coordinate (01X) at (.5,-6);
+      \coordinate (10X) at (2,-6);
+      \coordinate (11X) at (4.5,-6);
 
-      \draw<.(2)-> (root) -- (x1=0) node[midway, left] {$x_1 = 0$};
-      \draw<.(2)-> (root) -- (x1=1) node[midway, right] {$x_1 = 1$};
-      \draw<.(3)-> (x1=0) -- (00) node[midway, left] {$x_2 = 0$};
-      \draw<.(3)-> (x1=0) -- (01) node[midway, right] {$x_2 = 1$};
-      \draw<.(3)-> (x1=1) -- (10) node[midway, left] {$x_2 = 0$};
-      \draw<.(3)-> (x1=1) -- (11) node[midway, right] {$x_2 = 1$};
+      \draw<.(2)-> (root) -- (0) node[midway, left] {$x_1 = 0$};
+      \draw<.(2)-> (root) -- (1) node[midway, right] {$x_1 = 1$};
+      \draw<.(3)-> (0) -- (00) node[midway, left] {$x_2 = 0$};
+      \draw<.(3)-> (0) -- (01) node[midway, right] {$x_2 = 1$};
+      \draw<.(4)-> (1) -- (10) node[midway, left] {$x_2 = 0$};
+      \draw<.(4)-> (1) -- (11) node[midway, right] {$x_2 = 1$};
+      \draw<.(5)-> (00) -- (000) node[midway, left] {$x_3 = 0$};
+      \draw<.(5)-> (00) -- (001) node[midway, right] {$x_3 = 1$};
+      \draw<.(6)-> (01) -- (01X);
+      \draw<.(7)-> (10) -- (10X);
+      \draw<.(8)-> (11) -- (11X);
 
       \node<.(1)->[fill=white] at (root) {\eqref{eq:EM}};
-      \node<.(2)->[fill=white] at (x1=0) {\nodebbbtwo{}{}{}};
-      \node<.(2)->[fill=white] at (x1=1) {\nodebbbtwo{}{}{}};
-      \node<.(3)->[fill=white] at (00) {\nodebbbtwo{0}{0}{0}};
-      \node<.(3)->[fill=white] at (01) {\nodebbbtwo{0}{1}{1}};
-      \node<.(3)->[fill=white] at (10) {\nodebbbtwo{1}{0}{1}};
-      \node<.(3)->[fill=white] at (11) {\nodebbbtwo{1}{1}{2}};
+      \node<.(2)->[fill=white] at (0) {\nodebbbthree{0}{}{}};
+      \node<.(2)->[fill=white] at (1) {\nodebbbthree{1}{}{}};
+      \node<.(3)->[fill=white] at (00) {\nodebbbthree{0}{0}{}};
+      \node<.(3)->[fill=white] at (01) {\nodebbbthree{0}{1}{}};
+      \node<.(4)->[fill=white] at (10) {\nodebbbthree{1}{0}{}};
+      \node<.(4)->[fill=white] at (11) {\nodebbbthree{1}{1}{}};
+      \node<.(5)->[fill=white] at (000) {\nodebbbthree{1}{1}{0}};
+      \node<.(5)->[fill=white] at (001) {\nodebbbthree{1}{1}{1}};
+      \node<.(6)->[fill=white] at (01X) {\dots};
+      \node<.(7)->[fill=white] at (10X) {\dots};
+      \node<.(8)->[fill=white] at (11X) {\dots};
     \end{tikzpicture}
   \end{center}
 \end{frame}
@@ -181,126 +230,151 @@ Silva\footnote{r.gaia.cs@gmail.com}}
 \begin{frame}{Relação Linear (1)}
   \begin{center}
     \begin{tikzpicture}[scale=2]
-      \coordinate (00) at (0,0);
-      \coordinate (01) at (0,1);
-      \coordinate (10) at (1,0);
-      \coordinate (11) at (1,1);
+      \coordinate (000) at (0,0,0);
+      \coordinate (010) at (0,1,0);
+      \coordinate (100) at (1,0,0);
+      \coordinate (110) at (1,1,0);
+      \coordinate (001) at (0,0,1);
+      \coordinate (011) at (0,1,1);
+      \coordinate (101) at (1,0,1);
+      \coordinate (111) at (1,1,1);
 
-      \draw<.(2)->[fill=gray!50] (00) -- (01) -- (11) -- (10) -- (00);
+      \draw<.(2)->[fill=gray!50] (001) -- (011) -- (111) -- (101) -- (001);
+      \draw<.(2)->[fill=gray!50] (111) -- (101) -- (100) -- (110) -- (111);
+      \draw<.(2)->[fill=gray!50] (111) -- (110) -- (010) -- (011) -- (111);
 
-      \draw[->] (-.4,0) -- (1.4,0) node[right] {$x_1$};
-      \draw[->] (0,-.4) -- (0,1.4) node[right] {$x_2$};
-      \foreach \x in {00,01,10,11} {
-      \fill (\x) circle (.1);
+      \draw[->, dotted] (-.4,0,0) -- (1.4,0,0) node[below] {$x_1$};
+      \draw[->, dotted] (0,-.4,0) -- (0,1.4,0) node[right] {$x_2$};
+      \draw[->, dotted] (0,0,-.4) -- (0,0,1.4) node[below] {$x_3$};
+      \foreach \x in {000,010,100,110,001,011,101,111} {
+      \draw[fill=gray!50] (\x) circle (.05);
       }
-
-      \draw<.(3)->[color=red] (-.4,.4) -- (.4,-.4);
-      \draw<.(3)->[color=red] (-.4,1.4) -- (1.4,-.4);
-      \draw<.(3)->[color=red] (.6,1.4) -- (1.4,.6);
-      \draw<.(3)->[->] (.5,.5) -- +(.2,.2);
     \end{tikzpicture}
   \end{center}
-  \onslide<4>{A solução é $x_1 = 1$ e $x_2 = 1$.}
+  \onslide<3>{A solução é $x_1 = 1$, $x_2 = 1$ e $x_3 = 1$.}
 \end{frame}
 
 \begin{frame}{Relação Linear (2)}
   \begin{center}
     \begin{tikzpicture}[scale=2]
-      \coordinate (00) at (0,0);
-      \coordinate (01) at (0,1);
-      \coordinate (10) at (1,0);
-      \coordinate (11) at (1,1);
-      \coordinate (opt) at (.8,.6);
+      \coordinate (000) at (0,0,0);
+      \coordinate (010) at (0,1,0);
+      \coordinate (100) at (1,0,0);
+      \coordinate (110) at (1,1,0);
+      \coordinate (001) at (0,0,1);
+      \coordinate (011) at (0,1,1);
+      \coordinate (101) at (1,0,1);
+      \coordinate (111) at (1,1,1);
+      \coordinate (p) at (.9,1,.9);
 
-      \draw<.(2)->[fill=gray!50] (00) -- (01) -- (opt) -- (10) -- (00);
+      \draw<.(2)->[fill=gray!50] (001) -- (p) -- (101) -- (001);
+      \draw<.(2)->[fill=gray!50] (101) -- (p) -- (100) -- (101);
 
-      \draw[->] (-.4,0) -- (1.4,0) node[right] {$x_1$};
-      \draw[->] (0,-.4) -- (0,1.4) node[right] {$x_2$};
-      \foreach \x in {00,01,10,11} {
-      \fill (\x) circle (.1);
+      \draw[->, dotted] (-.4,0,0) -- (1.4,0,0) node[below] {$x_1$};
+      \draw[->, dotted] (0,-.4,0) -- (0,1.4,0) node[right] {$x_2$};
+      \draw[->, dotted] (0,0,-.4) -- (0,0,1.4) node[below] {$x_3$};
+      \foreach \x in {000,100,001,101} {
+      \draw[fill=gray!50] (\x) circle (.05);
       }
-
-      \draw<.(3)->[color=red] (-.4,.4) -- (.4,-.4);
-      \draw<.(3)->[color=red] (-.4,1.4) -- (1.4,-.4);
-      \draw<.(3)->[color=red] (.6,1.4) -- (1.4,.6);
-      \draw<.(3)->[->] (.5,.5) -- +(.2,.2);
     \end{tikzpicture}
   \end{center}
-  \onslide<4>{A solução é $x_1 = 0,8$ e $x_2 = 0,6$.}
+  \onslide<3>{A solução é $x_1 = 0,9$, $x_2 = 1$ e $x_3 = 0,9$.}
 \end{frame}
 
 \section{Branch \& Bounds}
-\begin{frame}{Motivação}
+\begin{frame}{Branch}
   \only<1>{
   \begin{center}
     \begin{tikzpicture}[scale=1.5]
-      \coordinate (00) at (0,0);
-      \coordinate (01) at (0,1);
-      \coordinate (10) at (1,0);
-      \coordinate (11) at (1,1);
-      \coordinate (20) at (2,0);
-      \coordinate (21) at (2,1);
-      \coordinate (22) at (2,2);
-      \coordinate (02) at (0,2);
-      \coordinate (12) at (1,2);
-      \coordinate (opt) at (1.8,1.6);
+      \coordinate (000) at (0,0,0);
+      \coordinate (010) at (0,1,0);
+      \coordinate (100) at (1,0,0);
+      \coordinate (110) at (1,1,0);
+      \coordinate (001) at (0,0,1);
+      \coordinate (011) at (0,1,1);
+      \coordinate (101) at (1,0,1);
+      \coordinate (111) at (1,1,1);
+      \coordinate (p) at (.9,1,.9);
 
-      \draw[fill=gray!50] (00) -- (02) -- (12) -- (opt) -- (21) -- (20) -- (00);
+      \draw[fill=gray!50] (001) -- (p) -- (101) -- (001);
+      \draw[fill=gray!50] (101) -- (p) -- (100) -- (101);
 
-      \draw[->] (-.4,0) -- (2.4,0) node[right] {$x_1$};
-      \draw[->] (0,-.4) -- (0,2.4) node[right] {$x_2$};
-      \foreach \x in {00,01,10,11,20,21,22,02,12} {
-      \fill (\x) circle (.1);
+      \draw[->, dotted] (-.4,0,0) -- (1.4,0,0) node[below] {$x_1$};
+      \draw[->, dotted] (0,-.4,0) -- (0,1.4,0) node[right] {$x_2$};
+      \draw[->, dotted] (0,0,-.4) -- (0,0,1.4) node[below] {$x_3$};
+      \foreach \x in {000,100,001,101} {
+      \draw[fill=gray!50] (\x) circle (.05);
       }
     \end{tikzpicture}
   \end{center}
   }
-  \onslide<2->{
+  \only<2>{
   \begin{center}
     \begin{tikzpicture}[scale=1.5]
-      \coordinate (00) at (0,0);
-      \coordinate (01) at (0,1);
-      \coordinate (10) at (1,0);
-      \coordinate (11) at (1,1);
-      \coordinate (20) at (2,0);
-      \coordinate (21) at (2,1);
-      \coordinate (22) at (2,2);
-      \coordinate (02) at (0,2);
-      \coordinate (12) at (1,2);
-      \coordinate (opt) at (1.8,1.6);
+      \coordinate (000) at (0,0,0);
+      \coordinate (010) at (0,1,0);
+      \coordinate (100) at (1,0,0);
+      \coordinate (110) at (1,1,0);
+      \coordinate (001) at (0,0,1);
+      \coordinate (011) at (0,1,1);
+      \coordinate (101) at (1,0,1);
+      \coordinate (111) at (1,1,1);
+      \coordinate (p) at (.9,1,.9);
 
-      \draw[fill=gray!50] (00) -- (02) -- (12) -- (10) -- (00);
+      \draw[fill=gray!50] (001) -- (000);
 
-      \draw[->] (-.4,0) -- (2.4,0) node[right] {$x_1$};
-      \draw[->] (0,-.4) -- (0,2.4) node[right] {$x_2$};
-      \foreach \x in {00,01,10,11,20,21,22,02,12} {
-      \fill (\x) circle (.1);
+      \draw[->, dotted] (-.4,0,0) -- (1.4,0,0) node[below] {$x_1$};
+      \draw[->, dotted] (0,-.4,0) -- (0,1.4,0) node[right] {$x_2$};
+      \draw[->, dotted] (0,0,-.4) -- (0,0,1.4) node[below] {$x_3$};
+      \foreach \x in {000,001} {
+      \draw[fill=gray!50] (\x) circle (.05);
       }
     \end{tikzpicture}
+    \hspace{.2\textwidth}
     \begin{tikzpicture}[scale=1.5]
-      \coordinate (00) at (0,0);
-      \coordinate (01) at (0,1);
-      \coordinate (10) at (1,0);
-      \coordinate (11) at (1,1);
-      \coordinate (20) at (2,0);
-      \coordinate (21) at (2,1);
-      \coordinate (22) at (2,2);
-      \coordinate (02) at (0,2);
-      \coordinate (12) at (1,2);
-      \coordinate (opt) at (.8,.6);
+      \coordinate (000) at (0,0,0);
+      \coordinate (010) at (0,1,0);
+      \coordinate (100) at (1,0,0);
+      \coordinate (110) at (1,1,0);
+      \coordinate (001) at (0,0,1);
+      \coordinate (011) at (0,1,1);
+      \coordinate (101) at (1,0,1);
+      \coordinate (111) at (1,1,1);
+      \coordinate (p) at (.9,1,.9);
 
-      \draw[fill=gray!50] (20) -- (21);
+      \draw[fill=gray!50] (101) -- (100);
 
-      \draw[->] (-.4,0) -- (2.4,0) node[right] {$x_1$};
-      \draw[->] (0,-.4) -- (0,2.4) node[right] {$x_2$};
-      \foreach \x in {00,01,10,11,20,21,22,02,12} {
-      \fill (\x) circle (.1);
+      \draw[->, dotted] (-.4,0,0) -- (1.4,0,0) node[below] {$x_1$};
+      \draw[->, dotted] (0,-.4,0) -- (0,1.4,0) node[right] {$x_2$};
+      \draw[->, dotted] (0,0,-.4) -- (0,0,1.4) node[below] {$x_3$};
+      \foreach \x in {100,101} {
+      \draw[fill=gray!50] (\x) circle (.05);
       }
     \end{tikzpicture}
   \end{center}
   }
-  \onslide<3>{Evitar o crescimento da árvore de decisão utilizando a solução de
-  relaxações do problema.}
+  \only<3>{
+  \begin{center}
+    \begin{tikzpicture}[scale=1.5]
+      \coordinate (000) at (0,0,0);
+      \coordinate (010) at (0,1,0);
+      \coordinate (100) at (1,0,0);
+      \coordinate (110) at (1,1,0);
+      \coordinate (001) at (0,0,1);
+      \coordinate (011) at (0,1,1);
+      \coordinate (101) at (1,0,1);
+      \coordinate (111) at (1,1,1);
+      \coordinate (p) at (.9,1,.9);
+
+      \draw[->, dotted] (-.4,0,0) -- (1.4,0,0) node[below] {$x_1$};
+      \draw[->, dotted] (0,-.4,0) -- (0,1.4,0) node[right] {$x_2$};
+      \draw[->, dotted] (0,0,-.4) -- (0,0,1.4) node[below] {$x_3$};
+      \foreach \x in {101} {
+      \draw[fill=gray!50] (\x) circle (.05);
+      }
+    \end{tikzpicture}
+  \end{center}
+  }
 \end{frame}
 
 \begin{frame}{Limitantes}
@@ -398,7 +472,7 @@ Silva\footnote{r.gaia.cs@gmail.com}}
     \item Uso de Computação Paralela,
     \item Programação Não-Linear Inteira, \ldots
   \end{itemize}
-\end{frame}<++>
+\end{frame}
 \section*{Obrigado}
 \begin{frame}
   \begin{center}
