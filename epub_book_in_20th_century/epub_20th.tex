@@ -68,21 +68,178 @@ Silva\footnote{ra092767@ime.unicamp.br}}
 
   \begin{block}{Licença}
     Salvo indicado o contrário, esta apresentação está licenciada sob a
-    Licença Creative Commons Atribuição-CompartilhaIgual 3.0 Não Adaptada .
+    Licença Creative Commons Atribuição-CompartilhaIgual 3.0 Não Adaptada.
     Para ver uma cópia desta licença, visite
-    \url{http://creativecommons.org/licenses/by/3.0/deep.pt_BR}.
+    \url{http://creativecommons.org/licenses/by-sa/3.0/deep.pt_BR}.
     \begin{center}
       \includegraphics{../figures/cc-by-sa.png}
     \end{center}
   \end{block}
 \end{frame}
 
+% \begin{frame}{Sobre o que é essa palestra}
+%   \begin{itemize}
+%     \item Padrões abertos,
+%     \item EPUB3 (\flang{electronic publication version 3}),
+%     \item DRM (\flang{Digital rights management}).
+%   \end{itemize}
+% \end{frame}
+
+\begin{frame}{Sobre o que não é essa palestra}
+  \begin{itemize}
+    \item \flang{ereaders} (e.g., Kobo, Kindle, \ldots),
+    \item \flang{tablets},
+    \item lojas de livros digitais.
+  \end{itemize}
+\end{frame}
+
 \begin{frame}
     \tableofcontents
 \end{frame}
 
+\section{Contesto histórico}
 \begin{frame}
-  
+  \begin{columns}
+    \begin{column}[t]{.4\textwidth}
+      \begin{itemize}
+        \item 1995-1999:
+          \pause
+          \begin{itemize}
+            \item Popularição da Web.
+              \pause
+            \item Primeiros tocadores de mp3.
+              \pause
+            \item Lançamento do Napster (Junho de 1999).
+              \pause
+          \end{itemize}
+        \item 2000-2005:
+          \pause
+          \begin{itemize}
+            \item Lançamento do iPod (Novembro de 2001).
+              \pause
+            \item Lançamento do iTunes (Abril de 2003).
+              \pause
+          \end{itemize}
+      \end{itemize}
+    \end{column}
+    \begin{column}[t]{.4\textwidth}
+      \begin{itemize}
+        \item 2005-2009:
+          \pause
+          \begin{itemize}
+            \item Primeiros modelos de \flang{ereaders}.
+              \pause
+            \item Lançamento do Kindle (Novembro de 2007).
+              \pause
+          \end{itemize}
+          \item 2010-hoje
+            \pause
+            \begin{itemize}
+              \item Lançamento do iPad (Março de 2010).
+            \end{itemize}
+        \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\section{EPUB3}
+\nocite{ebookFormat}
+\begin{frame}{Outros formatos}
+  \begin{itemize}
+    \item PostScript (.ps);
+      \pause
+    \item Adobe Portable Document Format (.pdf);
+      \pause
+    \item DjVu (.djvu);
+      \pause
+    \item Mobipocket (.mobi);
+      \pause
+    \item KF8 (.azw; .kf8);
+      \pause
+    \item iBook (.ibooks);
+%     \pause
+%   \item Comic Book Archive file (.cbz);
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Responsabilidade}
+  \flang{International Digital Publishing Forum}
+\end{frame}
+
+\begin{frame}{Macro estrutura}
+  \begin{center}
+    \only<1>{\includegraphics[width=.4\textwidth]{../figures/epub_logo.png}}
+    \only<2>{\includegraphics[width=.4\textwidth]{../figures/zip_blue_logo.png}}
+    \only<3>{\includegraphics[width=.4\textwidth]{../figures/xml_file_logo.png}}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Micro estrutura}
+  \begin{center}
+    \includegraphics[width=.8\textwidth]{../figures/html5-css3-javascript.jpg}
+  \end{center}
+\end{frame}
+
+\section{Mudanças do EPUB2 para EPUB3}
+\nocite{epub3Changes}
+\begin{frame}{Conteúdo}
+  \begin{itemize}
+    \item HTML5 \pause(Incluindo audio e vídeo)
+      \pause
+    \item SVG
+      \pause
+    \item MathML
+      \pause
+    \item Javascript
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\flang{Layout}}
+  \begin{itemize}
+    \item Fluído
+      \pause
+    \item CSS(3)
+      \pause
+    \item Fontes
+      \pause
+    \item \flang{Overlay}
+  \end{itemize}
+\end{frame}
+
+%\section{Readium}
+%\begin{frame}{Leitor e SDK}
+%  Readium
+%\end{frame}
+
+\section{DRM}
+\begin{frame}{O que é?}
+  \flang{Digital rights management} é uma tecnologia de controle de acesso
+  utilizada com a intenção de limitar o uso de conteúdo digital depois da venda.
+\end{frame}
+
+\begin{frame}{Como funciona}
+  \begin{center}
+    \begin{tikzpicture}
+      \node (l) at (0,0) {loja};
+      \node (r) at (0,-4) {leitor};
+
+      \draw[->] (l) -- (r);
+    \end{tikzpicture}
+    \hspace{.25\textwidth}\pause
+    \begin{tikzpicture}
+      \node (l) at (0,0) {loja};
+      \node (d) at (0,-2) {equip.};
+      \node (r) at (0,-4) {leitor};
+
+      \draw[->] (l) -- (d) node[midway, right] {encriptar};
+      \draw[->] (d) -- (r) node[midway, right] {desencriptar};
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Controvérsias}
+  O uso de DRM envolve alguns questionamentos relacionados com a propriedade
+  física e o direito autoral.
 \end{frame}
 
 \section*{Obrigado}
@@ -97,7 +254,7 @@ Silva\footnote{ra092767@ime.unicamp.br}}
 
 \section*{Bibliografia}
 \begin{frame}
-  \bibliography{epub}
+  \bibliography{epub_20th}
   \bibliographystyle{alpha}
 \end{frame}
 \end{document}
